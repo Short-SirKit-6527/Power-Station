@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
-public class DozerController : NetworkBehaviour
+public class DozerControllerOffline : MonoBehaviour
 {
     public bool Offline;
     public List<AxleInfo> axleInfos; // the information about each individual axle
@@ -14,13 +13,14 @@ public class DozerController : NetworkBehaviour
     public bool AI;
     public Camera cam;
 
-    public void OnStartLocalPlayer()
-    {
-        cam.enabled = false;
-    }
     public void FixedUpdate()
     {
-        if (this.isLocalPlayer && !AI)
+
+        if (AI)
+        {
+
+        }
+        else
         {
             cam.enabled = true;
             float motor = maxMotorTorque * -1f * Input.GetAxis("Vertical");
@@ -68,7 +68,10 @@ public class DozerController : NetworkBehaviour
                 else axleInfo.leftWheel.brakeTorque = 0f;
                 if (rightPow == 0) axleInfo.rightWheel.brakeTorque = axleInfo.brakeTorque;
                 else axleInfo.rightWheel.brakeTorque = 0f;
+
+                Debug.Log(leftRPM);
             }
+
             if (Input.GetAxis("Fire3") == 1)
             {
                 transform.position = new Vector3(0f, 0.798f, -7.4f);
@@ -91,14 +94,4 @@ public class DozerController : NetworkBehaviour
         if (Input.GetKey("9")) QualitySettings.SetQualityLevel(8, true);
         if (Input.GetKey("0")) QualitySettings.SetQualityLevel(9, true);
     }
-}
-
-[System.Serializable]
-public class AxleInfo
-{
-    public WheelCollider leftWheel;
-    public WheelCollider rightWheel;
-    public bool motor; // is this wheel attached to motor?
-    public bool steering; // does this wheel apply steer angle?
-    public float brakeTorque;
 }

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Ball : MonoBehaviour
+public class Ball : NetworkBehaviour
 {
     Renderer rend;
     // Start is called before the first frame update
