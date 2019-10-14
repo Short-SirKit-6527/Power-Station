@@ -148,22 +148,35 @@ MonoBehaviour:
     motor: 1
     steering: 1
     brakeTorque: 25
+    WheelP: 0
+    WheelI: 0
+    Wheeld: 0
   - leftWheel: {fileID: 2698992060330742971}
     rightWheel: {fileID: 2698992061843113454}
     motor: 1
     steering: 1
     brakeTorque: 25
+    WheelP: 0.05
+    WheelI: 0
+    Wheeld: 0
   - leftWheel: {fileID: 2698992060212015831}
     rightWheel: {fileID: 2698992061578428789}
     motor: 1
     steering: 1
     brakeTorque: 25
-  maxMotorTorque: 50
-  maxSteeringAngle: 10
-  motorMaxRPM: 300
-  steeringMaxRPM: 100
+    WheelP: 0
+    WheelI: 0
+    Wheeld: 0
+  maxMotorTorque: 300
+  maxSteeringAngle: 300
+  motorMaxRPM: 800
+  steeringMaxRPM: 600
   AI: 0
   cam: {fileID: 2698992061694889530}
+  playerNum: 0
+  WheelP: 0.05
+  WheelI: 0
+  WheelD: 0
 --- !u!114 &2698992059869061327
 MonoBehaviour:
   m_ObjectHideFlags: 0

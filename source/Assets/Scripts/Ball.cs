@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class Ball : NetworkBehaviour
+public class Ball : MonoBehaviour
 {
     Renderer rend;
     // Start is called before the first frame update
@@ -15,8 +14,8 @@ public class Ball : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        float state = Mathf.PingPong(Time.time / 4, 1);
-        Color emissiveColor = new Color(state, 0.0f, state);
+        float state = Mathf.PingPong(Time.time, 2);
+        Color emissiveColor = new Color(0, state, 0);
         rend.material.SetColor("_EmissionColor", emissiveColor);
     }
 }
