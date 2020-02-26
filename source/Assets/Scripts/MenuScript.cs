@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using MLAPI;
+using MLAPI.Transports.UNET;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -16,31 +18,54 @@ public class MenuScript : MonoBehaviour
     public GameObject creditCanvas;
     public TextAsset credits;
     public Text creditField;
-    public float creditEnd;
-    public float creditSpeed;
+    public Text qualityText;
+    public Text inputSchemeText;
+    public double creditEnd;
+    public double creditSpeed;
     public NetworkManager manager;
     public AudioSource musicPlayer;
     public AudioClip menuSong;
     public AudioClip creditSong;
 
-    float creditTime;
+    public bool dontDestroyOnLoad;
 
+    public static double creditTime;
+    public static int inputSchemeIndex;
+    private static MenuScript instanceRef;
 
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(this);
         ResetMainMenu();
+#if (UNITY_IOS || UNITY_ANDROID)
+        inputSchemeIndex = PlayerPrefs.GetInt("inputSchemeIndex", 2);
+#else
+        inputSchemeIndex = PlayerPrefs.GetInt("inputSchemeIndex", 1);
+#endif
+    }
+
+    void Awake()
+    {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("Menu");
+
+        if (objs.Length > 1)
+        {
+            Destroy(objs[0]);
+        }
     }
 
     public void ResetMainMenu()
     {
         play(menuSong);
         OpenMainMenu();
+        creditTime = 0;
     }
 
     public void OpenMainMenu()
     {
         setCanvas(0);
+        PlayerPrefs.Save();
     }
 
     public void OpenSingleplayerMenu()
@@ -78,22 +103,78 @@ public class MenuScript : MonoBehaviour
         }
     }
 
+    public void ShowQuality(int level)
+    {
+        if(level < 0)
+        {
+            qualityText.text = "Custom";
+        }
+        else
+        {
+            qualityText.text = QualitySettings.names[level];
+        }
+    }
+
+    public void IncrementQuality()
+    {
+        QualitySettings.IncreaseLevel();
+        ShowQuality(QualitySettings.GetQualityLevel());
+    }
+
+    public void DecrementQuality()
+    {
+        QualitySettings.DecreaseLevel();
+        ShowQuality(QualitySettings.GetQualityLevel());
+    }
+
+    public void ShowInputScheme(InputMode mode)
+    {
+        if (mode == null)
+        {
+            inputSchemeText.text = "Custom";
+        }
+        else
+        {
+            inputSchemeText.text = mode.ToString();
+        }
+    }
+    public void IncrementInputScheme()
+    {
+        inputSchemeIndex++;
+        PlayerPrefs.SetInt("inputSchemeIndex", inputSchemeIndex);
+        ShowInputScheme((InputMode)inputSchemeIndex);
+    }
+
+    public void DecrementInputScheme()
+    {
+        inputSchemeIndex--;
+        PlayerPrefs.SetInt("inputSchemeIndex", inputSchemeIndex);
+        ShowInputScheme((InputMode)inputSchemeIndex);
+    }
+
     public void StartMultiplayerHost()
     {
-        manager.networkAddress = "localhost";
-        manager.StartHost();
+        //manager.networkAddress = "localhost";
+        NetworkingManager.Singleton.StartHost();
+        MLAPI.Connection.NetworkedClient nc = new MLAPI.Connection.NetworkedClient();
+        Debug.Log(nc.ClientId);
     }
+
 
     public void setClientAddress(Text inputField)
     {
-        manager.networkAddress = inputField.text.ToString();
+        //manager.networkAddress = inputField.text.ToString();
+        NetworkingManager.Singleton.GetComponent<UnetTransport>().ConnectAddress = inputField.text.ToString();
+        MLAPI.Connection.NetworkedClient nc = new MLAPI.Connection.NetworkedClient();
+        Debug.Log(nc.ClientId);
     }
 
     public void StartMultiplayerClient(Text inputField)
     {
         setClientAddress(inputField);
         //Debug.Log(manager.networkAddress);
-        manager.StartClient();
+        //manager.StartClient();
+        NetworkingManager.Singleton.StartClient();
     }
 
     public void StartMultiplayerServer()
@@ -103,6 +184,8 @@ public class MenuScript : MonoBehaviour
 
     public void OpenSettings()
     {
+        ShowQuality(QualitySettings.GetQualityLevel());
+        ShowInputScheme((InputMode)inputSchemeIndex);
         setCanvas(4);
     }
 
@@ -116,26 +199,29 @@ public class MenuScript : MonoBehaviour
 
     void setCanvas(int index)
     {
-        mainMenuCanvas.active = index == 0;
-        singleplayerMenuCanvas.active = index == 1;
-        multiplayerMenuCanvas.active = index == 2;
-        multiplayerWebGLMenuCanvas.active = index == 3;
-        settingsMenuCanvas.active = index == 4;
-        creditCanvas.active = index == 5;
+        mainMenuCanvas.SetActive(index == 0);
+        singleplayerMenuCanvas.SetActive(index == 1);
+        multiplayerMenuCanvas.SetActive(index == 2);
+        multiplayerWebGLMenuCanvas.SetActive(index == 3);
+        settingsMenuCanvas.SetActive(index == 4);
+        creditCanvas.SetActive(index == 5);
 
     }
 
     public void Update()
     {
         //Debug.Log(creditTime);
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            //Application.Quit();
+        }
         if (creditTime > 0)
         {
-            creditField.rectTransform.anchoredPosition = new Vector2(0, (Time.time - creditTime) * 30);
+            creditField.rectTransform.anchoredPosition = new Vector2(0, (float)(Time.time - creditTime) * 30);
         }
         if (creditTime != 0 && (Time.time - creditTime) > creditEnd)
         {
             ResetMainMenu();
-            creditTime = 0;
         }
     }
 

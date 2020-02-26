@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2698992059869061326}
   - component: {fileID: 2698992059869061327}
   - component: {fileID: 6359154481852956935}
+  - component: {fileID: 329855202478380952}
   m_Layer: 0
   m_Name: Dozer
   m_TagString: Untagged
@@ -156,7 +157,7 @@ MonoBehaviour:
     motor: 1
     steering: 1
     brakeTorque: 25
-    WheelP: 0.05
+    WheelP: 0.05000000074505806
     WheelI: 0
     Wheeld: 0
   - leftWheel: {fileID: 2698992060212015831}
@@ -174,7 +175,7 @@ MonoBehaviour:
   AI: 0
   cam: {fileID: 2698992061694889530}
   playerNum: 0
-  WheelP: 0.05
+  WheelP: 0.05000000074505806
   WheelI: 0
   WheelD: 0
 --- !u!114 &2698992059869061327
@@ -233,6 +234,23 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 5
   m_InterpolateMovement: 1
+--- !u!114 &329855202478380952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2698992059869061320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 209037615, guid: 01701b64234b4d523d8045142cbc73fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkedInstanceId: 0
+  PrefabHash: 10870499419382602429
+  PrefabHashGenerator: Dozer
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
 --- !u!1 &2698992059935764495
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,7 +818,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2698992060655600895}
   m_LocalRotation: {x: 0.060196016, y: 0.11299526, z: -0.0068584704, w: 0.9917467}
-  m_LocalPosition: {x: 0.48584998, y: 0.20129792, z: -1.1704397}
+  m_LocalPosition: {x: 0.48584998, y: 0.15, z: -1.1704397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2698992059869061329}
@@ -961,7 +979,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2698992060854416487}
   m_LocalRotation: {x: 0.060196016, y: -0.11299526, z: 0.0068584704, w: 0.9917467}
-  m_LocalPosition: {x: -0.48585004, y: 0.20129792, z: -1.1704397}
+  m_LocalPosition: {x: -0.48585004, y: 0.15, z: -1.1704397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2698992059869061329}

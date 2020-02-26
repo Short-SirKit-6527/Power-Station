@@ -18,15 +18,5 @@ public class OnlineController : NetworkBehaviour
     {
         GetComponent<Transform>().position = new Vector3(playerNum + Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical"));
 
-        if (Input.GetKey("1")) QualitySettings.SetQualityLevel(0, true);
-        if (Input.GetKey("2")) QualitySettings.SetQualityLevel(1, true);
-        if (Input.GetKey("3")) QualitySettings.SetQualityLevel(2, true);
-        if (Input.GetKey("4")) QualitySettings.SetQualityLevel(3, true);
-        if (Input.GetKey("5")) QualitySettings.SetQualityLevel(4, true);
-        if (Input.GetKey("6")) QualitySettings.SetQualityLevel(5, true);
-        if (Input.GetKey("7")) QualitySettings.SetQualityLevel(6, true);
-        if (Input.GetKey("8")) QualitySettings.SetQualityLevel(7, true);
-        if (Input.GetKey("9")) QualitySettings.SetQualityLevel(8, true);
-        if (Input.GetKey("0")) QualitySettings.SetQualityLevel(9, true);
     }
 }
